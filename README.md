@@ -14,3 +14,11 @@ Predict 30-day hospital readmission risk and monitor model trust, drift, and rel
 ### ---ci_cd/
 ### ---docs/
 ### ---README.md
+
+
+	•	Problem
+	•	Architecture
+	•	Tech Stack
+	•	How to Run
+	•	Monitoring Strategy
+	•	Future Improvements
