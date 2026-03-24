@@ -32,3 +32,105 @@ Enable these services:
 Quick way:  
 
 Search each service → **Enable**  
+
+3️⃣ Install CLI (if not installed)
+
+Install
+Google Cloud CLI
+
+Mac:
+```
+</> bash
+brew install --cask google-cloud-sdk
+```
+Then login:
+```
+</> bash
+gcloud auth login
+```
+Set project
+```
+</> bash
+gcloud config set project healthcare-mlops-platform
+```
+Verify:
+```
+</> bash
+gcloud config list
+```
+4️⃣ Create Data Lake Bucket
+```
+</> bash
+gsutil mb -l us-central1 gs://healthcare-mlops-data
+```
+Verify
+```
+</> bash
+gsutil ls
+```
+You now have a data lake for training data.  
+
+5️⃣ Create BigQuery Dataset
+
+Open
+BigQuery → Create Dataset
+
+Name:
+```
+healthcare_ml
+```
+Location
+```
+US
+```
+6️⃣ Create Service Account (MLOps pipeline)
+
+Go to
+
+IAM & Admin → Service Accounts
+
+Create:
+```
+mlops-pipeline-sa
+```
+Description:
+```
+MLOps pipeline automation
+```
+7️⃣ Assign Roles
+
+Add roles:
+
+**Role	>> Reason**
+Vertex AI Admin	>> ML training
+BigQuery Admin	>> Data access
+Storage Admin	>> Data lake
+Artifact Registry Admin	>> container images  
+
+8️⃣ Create Key for Local Development
+
+Inside service account
+
+Create key → JSON
+
+Download
+```
+mlops-key.json
+```
+Set environment variable:
+
+Mac/Linux
+```
+export GOOGLE_APPLICATION_CREDENTIALS="mlops-key.json"
+```
+
+9️⃣ Test Vertex AI Access
+
+Run:
+```
+</> bash
+gcloud ai models list
+```
+If it works → setup is correct.  
+
+
