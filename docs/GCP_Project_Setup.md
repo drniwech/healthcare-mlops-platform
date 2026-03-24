@@ -39,32 +39,32 @@ Install
 Google Cloud CLI
 
 Mac:
-```
+```ruby
 </> bash
 brew install --cask google-cloud-sdk
 ```
 Then login:
-```
+```ruby
 </> bash
 gcloud auth login
 ```
 Set project
-```
+```ruby
 </> bash
 gcloud config set project healthcare-mlops-platform
 ```
 Verify:
-```
+```ruby
 </> bash
 gcloud config list
 ```
 4️⃣ Create Data Lake Bucket
-```
+```ruby
 </> bash
 gsutil mb -l us-central1 gs://healthcare-mlops-data
 ```
 Verify
-```
+```ruby
 </> bash
 gsutil ls
 ```
@@ -114,20 +114,20 @@ Inside service account
 Create key → JSON
 
 Download
-```
+```ruby
 mlops-key.json
 ```
 Set environment variable:
 
 Mac/Linux
-```
+```ruby
 export GOOGLE_APPLICATION_CREDENTIALS="mlops-key.json"
 ```
 
 9️⃣ Test Vertex AI Access
 
 Run:
-```
+```ruby
 </> bash
 gcloud ai models list
 ```
