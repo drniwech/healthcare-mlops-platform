@@ -133,4 +133,24 @@ gcloud ai models list
 ```
 If it works → setup is correct.  
 
+### Architecture Now Matches the Diagram
 
+We just implemented the first part of the architecture:
+```
+Data Lake → GCS
+Warehouse → BigQuery
+ML Platform → Vertex AI
+Compute → GKE (later)
+```
+
+### Deliverable
+
+We should now have:
+```
+✔ GCP project
+✔ Vertex AI enabled
+✔ BigQuery dataset
+✔ Cloud Storage data lake
+✔ IAM service account
+✔ CLI configured
+```
