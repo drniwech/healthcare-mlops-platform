@@ -23,6 +23,11 @@ patient_id,age,gender,num_procedures,num_medications,diagnosis,days_in_hospital,
 
 👉 Keep it small (< 1 MB) to stay free.  
 
+👉 Kaggle's Synthetic Healthcare Dataset:
+```
+https://www.kaggle.com/datasets/divyabhavana/synthetic-healthcare-dataset
+```
+
 🚀 Step 1 — Create CSV Locally
 
 Create file:
