@@ -1,5 +1,3 @@
-# data_pipeline/config.py
-
 PROJECT_ID = "healthcare-mlops-platform"
 DATASET = "healthcare_ml"
 
