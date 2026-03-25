@@ -216,3 +216,63 @@ ROC-AUC: 0.84
 Model saved to training/model/model.joblib
 ```
 
+1️⃣ MLflow Tracking
+- Experiments
+- Metrics
+- Artifacts
+- Model registry-ready
+
+2️⃣ Feature Importance Logging
+
+We now:
+
+- Explain model decisions (important for healthcare)
+- Build trust (ties to the thesis 👀)
+
+3️⃣ Confusion Matrix Artifact
+
+Saved as:
+```ruby
+</> bash  
+training/model/confusion_matrix.png
+```
+
+4️⃣ Metrics JSON (Pipeline-ready)
+```ruby
+</> JSON  
+{
+  "accuracy": 0.78,
+  "roc_auc": 0.84
+}
+```
+👉 This is required for:
+
+- CI/CD pipelines
+- Vertex AI pipelines
+
+5️⃣ Model Versioning (MLflow)
+
+Each run = new version
+
+Later, we can:
+
+- Register models
+- Promote to production
+- Rollback models
+
+🧠 Important Insight
+
+- Track experiments
+- Store artifacts
+- Version models
+- Prepare for pipelines
+
+🔥 Deliverable
+
+We now have:
+```ruby
+✔ Model trained locally
+✔ Evaluation metrics (AUC, accuracy)
+✔ Saved model artifact
+✔ Production-style training script
+```
