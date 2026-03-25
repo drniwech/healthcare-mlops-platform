@@ -125,4 +125,33 @@ if __name__ == "__main__":
     main()
 ```
 
+▶️ Step 3 — Run It
+```ruby
+</> bash
+python data_pipeline/feature_engineering.py
+```
 
+🔍 Step 4 — Validate in BigQuery
+
+Run:
+```ruby
+</> SQL
+SELECT *
+FROM healthcare_ml.features_v2
+LIMIT 10;
+```  
+Check:
+
+- New columns exist
+- No weird values
+- No null explosion
+
+### Deliverable
+
+We now have:
+```
+✔ Automated feature pipeline
+✔ New feature table (features_v2)
+✔ Reusable script (not notebook)
+✔ Ready for training step
+```
