@@ -145,4 +145,27 @@ This is EXACTLY what runs in:
 - Kubernetes
 - CI/CD pipelines
 
+⚠️ Common Issues (Fix Fast)  
+❌ Authentication error
+```
+👉 Fix: mount JSON key correctly   
+```
+
+❌ BigQuery permission denied
+
+👉 Fix: ensure service account has:
+```
+- BigQuery Admin
+- Storage Admin    
+```
+
+❌ Module not found
+
+👉 Fix: rebuild image  
+```ruby
+</>bash
+
+docker build --no-cache -t healthcare-mlops:latest .
+```
+
 
