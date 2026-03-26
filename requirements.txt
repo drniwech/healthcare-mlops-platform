@@ -1,0 +1,8 @@
+pandas
+scikit-learn
+xgboost
+google-cloud-bigquery
+mlflow
+matplotlib
+seaborn
+joblib
