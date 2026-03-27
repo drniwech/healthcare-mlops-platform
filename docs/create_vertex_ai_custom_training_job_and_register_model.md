@@ -109,6 +109,32 @@ Then call:
 upload_to_gcs(MODEL_PATH, MODEL_GCS_PATH)
 ```
 
+🏷 Step 6 — Register Model in Vertex AI
 
+After training completes:
+```ruby
+</> bash
+
+gcloud ai models upload \
+--region=us-central1 \
+--display-name=healthcare-readmission-model \
+--artifact-uri=gs://healthcare-mlops-data/models/ \
+--container-image-uri=us-docker.pkg.dev/vertex-ai/prediction/xgboost-cpu.1-5:latest
+```
+
+🧠 What We Just Built
+```
+Training Job → GCS → Vertex Model Registry
+```
+This is the production ML lifecycle.  
+
+✅ End of Day Deliverable
+
+We now have:
+
+- ✔ Docker image in Artifact Registry
+- ✔ Training job running on Vertex AI
+- ✔ Model saved in GCS
+- ✔ Model registered in Vertex AI
 
 
