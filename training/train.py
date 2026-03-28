@@ -1,5 +1,5 @@
 import pandas as pd
-from google.cloud import bigquery
+from google.cloud import bigquery, storage
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score, accuracy_score, confusion_matrix
 from xgboost import XGBClassifier
@@ -73,6 +73,18 @@ def save_metrics_json(acc, auc):
 
     return METRICS_PATH
 
+def upload_to_gcs(local_path, gcs_path):
+    client = storage.Client()
+
+    bucket_name = gcs_path.split("/")[2]
+    blob_path = "/".join(gcs_path.split("/")[3:])
+
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(blob_path)
+
+    blob.upload_from_filename(local_path)
+
+    print(f"Uploaded model to {gcs_path}")
 
 def main():
     mlflow.set_experiment(MLFLOW_EXPERIMENT)
@@ -108,8 +120,13 @@ def main():
 
         # --- Save model ---
         os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
+        # Save locally
         joblib.dump(model, MODEL_PATH)
 
+        # Upload to GCS (NEW)
+        upload_to_gcs(MODEL_PATH, MODEL_GCS_PATH)
+
+        # MLflow logging
         mlflow.log_artifact(MODEL_PATH)
         mlflow.xgboost.log_model(model, "model")
 
