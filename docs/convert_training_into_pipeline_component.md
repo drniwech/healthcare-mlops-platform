@@ -115,3 +115,51 @@ if __name__ == "__main__":
 
 python pipeline/pipeline.py
 ```
+
+🔍 What Happens
+
+Vertex AI will:
+
+- Create pipeline job
+- Pull your Docker image
+- Run training step
+- Log outputs
+
+👉 We now have a managed ML pipeline.  
+
+📊 What You’ll See in UI
+
+Go to:
+
+👉 Vertex AI → Pipelines
+
+We’ll see:
+
+- Pipeline run
+- Execution graph
+- Logs
+
+✅ End of Day 7 Deliverable
+
+We now have:
+```
+✔ Pipeline component
+✔ Pipeline definition
+✔ Pipeline execution on Vertex AI
+✔ Reusable training step
+```
+
+🔥 Why This Is Huge
+
+Before:
+
+- One-off training job
+
+Now:
+
+- Reusable pipeline component
+- Production orchestration
+- CI/CD ready
+
+👉 This is real MLOps architecture  
+
