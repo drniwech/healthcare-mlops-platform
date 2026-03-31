@@ -39,7 +39,7 @@ pip install kfp google-cloud-aiplatform
 ```
 KFP = Kubeflow Pipelines (used by Vertex AI)  
 
-🧩 Step 2 — Create Training Component
+🧩 Step 2 — Create Training Component  
 pipeline/components/train_component.py  
 ```ruby
 </> python  
