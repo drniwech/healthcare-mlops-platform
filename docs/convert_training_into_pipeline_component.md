@@ -62,12 +62,12 @@ We already Dockerized your training.
 
 👉 So instead of rewriting logic:
 
-- We reuse your container
+- We reuse our container
 - Pipeline just triggers it
 
 This is exactly how real systems are built.  
 
-🧪 Step 3 — Create Pipeline
+🧪 Step 3 — Create Pipeline  
 pipeline/pipeline.py  
 ```ruby
 </> python
