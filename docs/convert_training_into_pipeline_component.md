@@ -55,3 +55,63 @@ def train_model_op():
     # Run your existing training script inside a container
     subprocess.run(["python", "training/train.py"], check=True)
 ```
+
+🧠 Why This Works
+
+We already Dockerized your training.
+
+👉 So instead of rewriting logic:
+
+- We reuse your container
+- Pipeline just triggers it
+
+This is exactly how real systems are built.  
+
+🧪 Step 3 — Create Pipeline
+pipeline/pipeline.py  
+```ruby
+</> python
+
+from kfp.v2 import dsl
+from kfp.v2 import compiler
+from google.cloud import aiplatform
+
+from components.train_component import train_model_op
+
+
+PROJECT_ID = "healthcare-mlops-platform"
+REGION = "us-central1"
+PIPELINE_ROOT = "gs://healthcare-mlops-data/pipeline-root"
+
+
+@dsl.pipeline(
+    name="healthcare-mlops-pipeline",
+    pipeline_root=PIPELINE_ROOT,
+)
+def ml_pipeline():
+    train_task = train_model_op()
+
+
+if __name__ == "__main__":
+    compiler.Compiler().compile(
+        pipeline_func=ml_pipeline,
+        package_path="pipeline.json"
+    )
+
+    aiplatform.init(project=PROJECT_ID, location=REGION)
+
+    job = aiplatform.PipelineJob(
+        display_name="healthcare-mlops-pipeline-run",
+        template_path="pipeline.json",
+        pipeline_root=PIPELINE_ROOT,
+    )
+
+    job.run()
+```
+
+🚀 Step 4 — Run Pipeline
+```ruby
+</> bash
+
+python pipeline/pipeline.py
+```
