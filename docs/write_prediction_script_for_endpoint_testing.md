@@ -11,9 +11,15 @@ Create a Python prediction script that:
 
 🧱 Suggested Structure  
 ```
-prediction/
-    predict.py
-    config.py
+project-root/
+│
+├── common/
+│   ├── __init__.py
+│   └── features.py
+│
+├──prediction/
+    ├── predict.py
+    ├── config.py
 ```
 
 ⚙️ Step 1 — Install Dependency  
@@ -23,7 +29,25 @@ prediction/
 pip install google-cloud-aiplatform
 ```
 
-🧾 Step 2 — Create prediction/config.py  
+🧱 Step 2 — Create Shared Module  
+🧾 common/features.py  
+```ruby
+</> python
+
+def build_features(raw_input):
+    return {
+        "age": raw_input["age"],
+        "num_procedures": raw_input["num_procedures"],
+        "num_medications": raw_input["num_medications"],
+        "days_in_hospital": raw_input["days_in_hospital"],
+        "med_per_day": raw_input["num_medications"] / (raw_input["days_in_hospital"] + 1),
+        "procedure_ratio": raw_input["num_procedures"] / (raw_input["num_medications"] + 1),
+        "high_risk": int(raw_input["age"] > 65 and raw_input["num_medications"] > 10),
+    }
+```
+
+
+🧾 Step 3 — Create prediction/config.py  
 ```ruby
 </> python
 
@@ -33,13 +57,13 @@ REGION = "us-central1"
 ENDPOINT_ID = "YOUR_ENDPOINT_ID"  # replace this
 ```
 
-🧑‍💻 Step 3 — Create prediction/predict.py  
+🧑‍💻 Step 4 — Create prediction/predict.py  
 ```ruby
 </> python
 
 from google.cloud import aiplatform
 from config import PROJECT_ID, REGION, ENDPOINT_ID
-
+from common.features import build_features
 
 def predict(instance):
     aiplatform.init(project=PROJECT_ID, location=REGION)
@@ -54,23 +78,24 @@ def predict(instance):
 
 
 if __name__ == "__main__":
-    # Example test input (must match training features)
-    test_instance = {
+    # Raw input (what real users would send)
+    raw_input = {
         "age": 65,
         "num_procedures": 2,
         "num_medications": 10,
-        "days_in_hospital": 5,
-        "med_per_day": 1.6,
-        "procedure_ratio": 0.18,
-        "high_risk": 1
+        "days_in_hospital": 5
     }
 
-    prediction = predict(test_instance)
+    # 🔥 Convert to model-ready features
+    processed_input = build_features(raw_input)
+
+    # Call endpoint
+    prediction = predict(processed_input)
 
     print("Prediction:", prediction)
 ```
 
-▶️ Step 4 — Run Script  
+▶️ Step 5 — Run Script  
 ```ruby
 </> bash
 
@@ -95,4 +120,14 @@ If we used:
 one-hot encoding
 extra features
 
-👉 You must include them
+👉 We must include them.  
+
+🧠 Why This Is Important  
+
+We now separate:
+```
+User Input → Feature Engineering → Model Input → Prediction
+```
+👉 This is CRITICAL in real systems.  
+
+
