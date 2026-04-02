@@ -62,4 +62,4 @@ jobs:
     # 🔁 Trigger Vertex AI Pipeline
     - name: Trigger Vertex AI Pipeline
       run: |
-        python pipeline/pipeline.py
+        python pipeline/pipeline.py run
