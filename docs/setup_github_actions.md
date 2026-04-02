@@ -19,13 +19,13 @@ Set up CI/CD to:
     └── mlops-ci.yml
 ```
 
-🔐 Step 2 — Add GitHub Secrets  
+🔐 Step 2 — Add GitHub Secrets (Repository Secrets)  
 
 Go to:  
 ```
-GitHub → Settings → Secrets → Actions
+GitHub (current repository) → Settings → Secrets → Actions
 ```
-Add:  
+Add Repository Secrets:  
 ```
 Secret Name      | Value                                
 ---------------- | -------------------------  
