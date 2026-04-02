@@ -147,3 +147,15 @@ Then in GitHub Actions:
 python pipeline/pipeline.py run
 ```
 
+🧠 Real-World Insight  
+
+This setup mimics:  
+```
+Company System    |    Our Setup
+----------------  | -------------------------
+CI/CD pipeline    |    GitHub Actions
+Container registry    |    Artifact Registry
+ML pipeline    |    Vertex AI
+Deployment trigger    |    Git push
+```
+👉 This is enterprise MLOps
