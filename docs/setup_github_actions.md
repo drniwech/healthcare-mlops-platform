@@ -158,4 +158,36 @@ Container registry    |    Artifact Registry
 ML pipeline    |    Vertex AI
 Deployment trigger    |    Git push
 ```
-👉 This is enterprise MLOps
+👉 This is enterprise MLOps  
+
+💰 Cost Awareness  
+
+This step may:  
+```
+Trigger pipeline runs
+Use compute resources
+```
+👉 Add branch filter later (e.g., only on release)  
+
+🚀 What We Just Built  
+```
+Code → CI/CD → Docker → Cloud → ML Pipeline
+```
+👉 This is end-to-end automated MLOps.  
+
+🎯 Final Status  
+
+We now have:
+```
+✔ Data pipeline
+✔ Feature engineering
+✔ Training
+✔ MLflow tracking
+✔ Docker
+✔ Vertex AI pipeline
+✔ Endpoint deployment
+✔ Prediction client
+✔ CI/CD automation
+```
+👉 This is top-tier portfolio level.  
+
