@@ -42,6 +42,8 @@ def ml_pipeline():
     )
 
     # (Optional future) Add dependency explicitly
+    
+    # Ensures model is evaluated before registration
     register_task.after(eval_task)
 
 
