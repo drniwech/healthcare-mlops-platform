@@ -1,4 +1,4 @@
-# Set up GCP project, enable Vertex AI & BigQuery, configure IAM  
+# 1. Set up GCP project, enable Vertex AI & BigQuery, configure IAM  
 
 1️⃣ Create a GCP Project
 
