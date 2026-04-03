@@ -1,4 +1,4 @@
-## Load synthetic healthcare dataset into BigQuery  
+## 2. Load synthetic healthcare dataset into BigQuery  
 
 Using:
 ```
