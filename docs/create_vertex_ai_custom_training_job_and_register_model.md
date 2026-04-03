@@ -1,4 +1,4 @@
-## Create Vertex AI custom training job and register model  
+## 6. Create Vertex AI custom training job and register model  
 
 🎯 Objective
 - Push Docker image → Artifact Registry
