@@ -1,4 +1,4 @@
-## Deploy model to Vertex endpoint  
+## 9. Deploy model to Vertex endpoint  
 
 🎯 Objective  
 - Create endpoint
