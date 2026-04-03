@@ -1,13 +1,11 @@
+# training + pipeline
 pandas
+numpy
 scikit-learn
 xgboost
-google-cloud-bigquery
+joblib
 mlflow
-matplotlib
-seaborn
-numpy
 google-cloud-aiplatform
-fastapi==0.110.0
-uvicorn==0.29.0
-shap==0.44.1
-joblib==1.3.2
+google-cloud-storage
+google-cloud-bigquery
+shap
