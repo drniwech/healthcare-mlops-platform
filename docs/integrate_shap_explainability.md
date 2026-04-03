@@ -59,6 +59,15 @@ api/
 ```
 
 ⚙️ Step 2 — Install Dependencies  
+👉 add these to the requirements.txt:  
+```
+fastapi==0.110.0
+uvicorn==0.29.0
+shap==0.44.1
+joblib==1.3.2
+numpy
+google-cloud-aiplatform
+```
 ```ruby
 </> bash  
 
