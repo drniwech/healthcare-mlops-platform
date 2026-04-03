@@ -1,4 +1,4 @@
-### Build local training script
+### 4. Build local training script
 
 🎯 Objective
 
