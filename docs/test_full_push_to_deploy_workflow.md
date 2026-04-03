@@ -1,4 +1,4 @@
-## 14. Test full push-to-deploy workflow  
+## 12. Test full push-to-deploy workflow  
 
 🎯 Objective 
 
