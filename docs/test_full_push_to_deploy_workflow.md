@@ -103,3 +103,88 @@ We should see:
 - healthcare-full-pipeline-run
 - Status: Running or Completed
 
+🔍 Step 5 — Validate Each Component  
+
+Click pipeline run and check:  
+```
+Ingest → Train → Evaluate → Register
+```
+All should be:  
+```
+✔ Green (success)
+```
+
+🔍 Step 6 — Verify Model Registry  
+
+Go to:  
+
+👉 Vertex AI → Models  
+
+Check:  
+
+- New version created
+- Model name: healthcare-readmission-model
+
+🧠 What We Just Validated
+```
+Code Push → CI/CD → Container → Pipeline → Model Registry
+```
+👉 This is a true production workflow.
+
+-------------------------------------------------------
+
+⚠️ Common Failures (and Fixes)  
+❌ Authentication error  
+```
+Permission denied  
+```
+👉 Fix:
+
+- Check GCP_SA_KEY
+- Check IAM roles
+
+❌ Docker push fails  
+```
+unauthorized  
+```
+👉 Fix:
+```
+</> bash
+
+gcloud auth configure-docker
+```
+
+❌ Pipeline fails at ingest  
+
+👉 Likely:  
+
+- BigQuery permission issue  
+- Wrong dataset/table name
+
+❌ Module import error (common)  
+
+👉 Fix:  
+
+- Ensure __init__.py exists
+- Ensure Docker image includes all code
+
+🔥 Success Criteria (All Must Pass)  
+
+✔ GitHub Actions completes  
+✔ Docker image pushed  
+✔ Pipeline triggered  
+✔ Pipeline succeeds  
+✔ Model registered  
+
+🏆 What We Achieved  
+
+We now have:  
+```
+Fully automated ML system triggered by git push
+```
+This is what companies call:  
+
+👉 Continuous Training Pipeline (CT)  
+👉 CI/CD for ML  
+
+
