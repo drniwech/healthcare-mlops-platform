@@ -1,4 +1,4 @@
-## Convert training into pipeline component  
+## 7. Convert training into pipeline component  
 
 🎯 Objective
 
