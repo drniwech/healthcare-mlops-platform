@@ -1,4 +1,4 @@
-## Set up GitHub Actions (lint, Docker build, pipeline trigger)
+## 11. Set up GitHub Actions (lint, Docker build, pipeline trigger)
 
 🎯 Objective  
 
