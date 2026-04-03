@@ -1,4 +1,4 @@
-## Build full pipeline: Ingest → Train → Evaluate → Register  
+## 8. Build full pipeline: Ingest → Train → Evaluate → Register  
 
 🧱 Final Pipeline Structure  
 ```
