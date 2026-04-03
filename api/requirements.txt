@@ -1,0 +1,8 @@
+# API-specific
+fastapi
+uvicorn
+shap
+joblib
+numpy
+pydantic
+google-cloud-aiplatform
