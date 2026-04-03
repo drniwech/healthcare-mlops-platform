@@ -1,4 +1,4 @@
-## Dockerize training job and test locally  
+## 5. Dockerize training job and test locally  
 
 🎯 Objective
 - Package training code into Docker image
