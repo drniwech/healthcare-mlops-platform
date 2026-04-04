@@ -2,6 +2,7 @@ from google.cloud import aiplatform
 from config import PROJECT_ID, REGION, ENDPOINT_ID
 from common.features import build_features
 
+
 def predict(instance):
     aiplatform.init(project=PROJECT_ID, location=REGION)
 
@@ -10,12 +11,45 @@ def predict(instance):
     )
 
     response = endpoint.predict(instances=[instance])
+    predictions = response.predictions
 
-    return response.predictions
+    parsed_predictions = []
+    parsed_confidences = []
+
+    for p in predictions:
+        # =========================
+        # Case A: dict with scores
+        # =========================
+        if isinstance(p, dict) and "scores" in p:
+            scores = p["scores"]
+            pred_class = int(p.get("classes", list(range(len(scores))))[scores.index(max(scores))])
+            confidence = float(max(scores))
+
+        # =========================
+        # Case B: list of probabilities
+        # =========================
+        elif isinstance(p, list):
+            scores = p
+            pred_class = int(scores.index(max(scores)))
+            confidence = float(max(scores))
+
+        # =========================
+        # Fallback (regression or unknown)
+        # =========================
+        else:
+            pred_class = int(p)
+            confidence = None
+
+        parsed_predictions.append(pred_class)
+        parsed_confidences.append(confidence)
+
+    return {
+        "prediction": parsed_predictions,
+        "confidence": parsed_confidences
+    }
 
 
 if __name__ == "__main__":
-    # Raw input (what real users would send)
     raw_input = {
         "age": 65,
         "num_procedures": 2,
@@ -23,11 +57,9 @@ if __name__ == "__main__":
         "days_in_hospital": 5
     }
 
-    # Convert to model-ready features
     processed_input = build_features(raw_input)
 
-    # Call endpoint
-    prediction = predict(processed_input)
+    result = predict(processed_input)
 
-    print("Prediction:", prediction)
-
+    print("Prediction:", result["prediction"])
+    print("Confidence:", result["confidence"])
