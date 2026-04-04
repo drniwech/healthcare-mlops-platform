@@ -29,7 +29,7 @@ For most ML models:
  
 🏗️ Step 1: Update Prediction Logic (FastAPI)  
 
-Inside our FastAPI app (/api/app/main.py or similar):  
+Inside our FastAPI app (/api/app.py):  
 
 Before (likely)  
 ```ruby
