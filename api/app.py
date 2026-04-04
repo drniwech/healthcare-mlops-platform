@@ -10,6 +10,8 @@ from common.features import build_features
 from prediction.predict import predict  # Vertex call
 from model_loader import model
 
+LOW_CONF_THRESHOLD = 0.6
+
 app = FastAPI()
 
 # =========================
@@ -78,10 +80,11 @@ def predict_with_explain(input: PatientInput):
     # =========================
     # Step 5: Low Confidence Alert 🚨
     # =========================
-    if confidence < 0.6:
+    if confidence < LOW_CONF_THRESHOLD:
         logging.warning(json.dumps({
             "alert": "Low confidence prediction",
             "confidence": confidence,
+            "threshold": LOW_CONF_THRESHOLD,
             "input": features
         }))
 
