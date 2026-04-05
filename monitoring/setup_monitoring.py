@@ -1,4 +1,5 @@
 from google.cloud import aiplatform
+from config import PROJECT_ID, REGION, ENDPOINT_ID
 
 aiplatform.init(project=PROJECT_ID, location=REGION)
 
