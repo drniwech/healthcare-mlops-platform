@@ -1,21 +1,42 @@
-# Day 17 --- Vertex AI Model Monitoring
+# 15. Vertex AI Model Monitoring
 
 ## 🎯 Objective
 
-Enable **Vertex AI Model Monitoring** to: - Detect **data drift** -
-Monitor **feature distribution changes** - Establish a foundation for
-**production ML observability**
+Enable **Vertex AI Model Monitoring** to:  
+- Detect **data drift**
+- Monitor **feature distribution changes**
+- Establish a foundation for **production ML observability**
 
 ------------------------------------------------------------------------
 
 ## 🧱 Architecture Context
 
-Current system: - Vertex AI Endpoint (deployed model) - FastAPI
-inference layer - Logging (prediction + confidence) - SHAP
-explainability
+Current system:  
+- Vertex AI Endpoint (deployed model) 
+- FastAPI inference layer 
+- Logging (prediction + confidence) 
+- SHAP explainability
 
 👉 Today: Add **native monitoring layer (Vertex AI)**
 
+------------------------------------------------------------------------
+
+🧱 Clean Project Structure 
+```
+project-root/
+│
+├── api/
+│   └── app.py                  ✅ FastAPI (no change)
+│
+├── prediction/
+│   └── predict.py              ✅ Vertex call (no change)
+│
+├── monitoring/
+│   └── setup_monitoring.py     🆕 NEW (Day 17)
+│
+├── common/
+├── config.py
+```
 ------------------------------------------------------------------------
 
 ## 🧠 Why Vertex Model Monitoring?
@@ -31,7 +52,7 @@ explainability
 
 ## 🔄 Step 1: Prepare Baseline Dataset
 
-Vertex requires a **baseline dataset** (training data).
+Vertex requires a **baseline dataset** (training data). This file will be used in Step 3.  
 
 ### Example (GCS path)
 
@@ -46,7 +67,9 @@ data
 
 ## 🔄 Step 2: Enable Model Monitoring
 
-### Python Setup
+### Python Setup  
+
+New File: `/monitoring/setup_monitoring.py`  
 
 ``` python
 from google.cloud import aiplatform
@@ -143,7 +166,7 @@ Vertex AI → Endpoints → Monitoring
 
 ## 📧 Alerts
 
-Configured via email in alert_config
+Configured via email in alert_config (Step 2)  
 
 ------------------------------------------------------------------------
 
@@ -153,12 +176,6 @@ Configured via email in alert_config
 -   Hourly checks balance cost/performance
 -   Conservative thresholds reduce noise
 
-------------------------------------------------------------------------
-
-## 🎯 Interview Talking Points
-
-Enabled Vertex AI Model Monitoring with drift detection and alerting for
-production ML systems.
 
 ------------------------------------------------------------------------
 
@@ -169,8 +186,4 @@ production ML systems.
 -   Alerts configured
 -   Logging verified
 
-------------------------------------------------------------------------
 
-## ⏭️ Next Step
-
-Day 18 --- Simulate Data Drift
