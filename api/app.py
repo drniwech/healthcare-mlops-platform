@@ -78,7 +78,7 @@ def predict_with_explain(input: PatientInput):
     logging.info(json.dumps(log_data))
 
     # =========================
-    # Step 5: Low Confidence Alert 🚨
+    # Step 5: Low Confidence Alert 
     # =========================
     if confidence < LOW_CONF_THRESHOLD:
         logging.warning(json.dumps({
