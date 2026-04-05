@@ -17,7 +17,7 @@ Current system:
 - SHAP explainability
 - CI/CD via GitHub Actions  
 
-👉 Focus today: **Inference Layer Observability**
+👉 Focus : **Inference Layer Observability**
 
 ------------------------------------------------------------------------
 
