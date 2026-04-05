@@ -1,3 +1,4 @@
+# domain-specific config
 PROJECT_ID = "healthcare-mlops-platform"
 REGION = "us-central1"
 

@@ -1,3 +1,4 @@
+# domain-specific config
 PROJECT_ID = "healthcare-mlops-platform"
 DATASET = "healthcare_ml"
 FEATURE_TABLE = "features_v2"
