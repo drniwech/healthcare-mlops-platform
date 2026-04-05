@@ -50,15 +50,18 @@ def predict(instance):
 
 
 if __name__ == "__main__":
+    # Raw input (what real users would send)
     raw_input = {
         "age": 65,
         "num_procedures": 2,
         "num_medications": 10,
         "days_in_hospital": 5
     }
-
+    
+    # Convert to model-ready features
     processed_input = build_features(raw_input)
-
+    
+    # Call endpoint
     result = predict(processed_input)
 
     print("Prediction:", result["prediction"])
