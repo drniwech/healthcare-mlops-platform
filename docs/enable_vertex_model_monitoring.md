@@ -32,10 +32,10 @@ project-root/
 │   └── predict.py              ✅ Vertex call (no change)
 │
 ├── monitoring/
-│   └── setup_monitoring.py     🆕 NEW (Day 17)
+│   └── setup_monitoring.py     🆕 NEW 
 │
 ├── common/
-├── config.py
+├── config.py                   🆕 NEW (Global Config)
 ```
 ------------------------------------------------------------------------
 
@@ -49,6 +49,16 @@ project-root/
     -   Training-serving skew detection
 
 ------------------------------------------------------------------------
+## Step 0: Create Global Config  
+`root/config.py`
+```python
+# GLOBAL CONFIG
+import os
+
+PROJECT_ID = os.getenv("PROJECT_ID", "healthcare-mlops-platform")
+REGION = os.getenv("REGION", "us-central1")
+ENDPOINT_ID = os.getenv("ENDPOINT_ID", "your-endpoint-id")
+```
 
 ## 🔄 Step 1: Prepare Baseline Dataset
 
