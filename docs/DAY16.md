@@ -1,17 +1,21 @@
-# Day 16 --- Logging Prediction Confidence Scores
+# 14. Logging Prediction Confidence Scores
 
 ## 🎯 Objective
 
-Enhance the inference service to: - Return **prediction confidence
-scores** - Log **inputs, predictions, and confidence** - Trigger
-**alerts for low-confidence predictions**
+Enhance the inference service to:  
+- Return **prediction confidence scores**
+- Log **inputs, predictions, and confidence**
+- Trigger **alerts for low-confidence predictions**  
 
 ------------------------------------------------------------------------
 
 ## 🧱 Architecture Context
 
-Current system: - Vertex AI Endpoint (model serving) - FastAPI
-(`/api/app.py`) - SHAP explainability - CI/CD via GitHub Actions
+Current system: 
+- Vertex AI Endpoint (model serving)
+- FastAPI (`/api/app.py`)
+- SHAP explainability
+- CI/CD via GitHub Actions  
 
 👉 Focus today: **Inference Layer Observability**
 
@@ -94,7 +98,11 @@ logging.basicConfig(level=logging.INFO)
 ------------------------------------------------------------------------
 
 ### Update Endpoint Logic
-
+  Key Enhancements:
+    - Extract confidence
+    - Log structured data
+    - Trigger alert  
+    
 ``` python
 result = predict(features)
 
@@ -104,7 +112,7 @@ confidence = float(result["confidence"][0])
 
 ------------------------------------------------------------------------
 
-### Structured Logging
+### Add Structured Logging
 
 ``` python
 log_data = {
@@ -119,7 +127,7 @@ logging.info(json.dumps(log_data))
 
 ------------------------------------------------------------------------
 
-### Low-Confidence Alert 🚨
+### Add Low-Confidence Alert 🚨
 
 ``` python
 if confidence < LOW_CONF_THRESHOLD:
@@ -175,7 +183,7 @@ curl -X POST http://127.0.0.1:8000/predict \
 
 ------------------------------------------------------------------------
 
-## 📊 Logging Examples
+## 📊 Logging Output Examples
 
 ### Normal Log
 
@@ -209,14 +217,6 @@ curl -X POST http://127.0.0.1:8000/predict \
 
 ------------------------------------------------------------------------
 
-## 🎯 Interview Talking Points
-
-> Implemented structured prediction logging with confidence thresholds
-> and alerting, enabling real-time monitoring and supporting drift
-> detection and observability.
-
-------------------------------------------------------------------------
-
 ## ✅ Deliverables
 
 -   Prediction includes confidence
@@ -225,8 +225,3 @@ curl -X POST http://127.0.0.1:8000/predict \
 -   Low-confidence alert enabled
 -   Clean inference abstraction
 
-------------------------------------------------------------------------
-
-## ⏭️ Next Step (Day 17)
-
-**Input Logging + Data Drift Detection**
