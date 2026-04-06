@@ -26,3 +26,12 @@ Predict 30-day hospital readmission risk and monitor model trust, drift, and rel
 	•	How to Run
 	•	Monitoring Strategy
 	•	Future Improvements
+
+----------------------------------------------------------------------------------------------
+
+## Implementation Steps  
+1. Set up GCP project, enable Vertex AI & BigQuery, configure IAM [(https://github.com/drniwech/healthcare-mlops-platform/blob/index/docs/gcp_project_setup.md)](https://github.com/drniwech/healthcare-mlops-platform/blob/main/docs/gcp_project_setup.md).
+2. Load synthetic healthcare dataset into BigQuery ([docs/load_a_synthetic_healthcare_dataset.md](https://github.com/drniwech/healthcare-mlops-platform/blob/main/docs/load_a_synthetic_healthcare_dataset.md)).
+3. Write feature engineering script (https://github.com/drniwech/healthcare-mlops-platform/blob/main/docs/feature_engineering_script.md)
+4. Build local training script (XGBoost) (https://github.com/drniwech/healthcare-mlops-platform/blob/main/docs/build_local_training_script.md)
+5. 
