@@ -101,10 +101,10 @@ MLOps pipeline automation
 
 Add roles:
 
-**Role	>> Reason**
-Vertex AI Admin	>> ML training
-BigQuery Admin	>> Data access
-Storage Admin	>> Data lake
+**Role	>> Reason**  
+Vertex AI Admin	>> ML training  
+BigQuery Admin	>> Data access  
+Storage Admin	>> Data lake  
 Artifact Registry Admin	>> container images  
 
 8️⃣ Create Key for Local Development
