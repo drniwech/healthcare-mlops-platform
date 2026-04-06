@@ -164,8 +164,9 @@ File path:
 </> bash  
 gs://healthcare-mlops-data/healthcare_data.csv
 ```
-Format: CSV
-Schema: Auto-detect (for now)
+Format: `CSV`   
+Schema: `Auto-detect (for now)`  
+Table name: `patient_data`  
 
 Click **Create Table**   
 
