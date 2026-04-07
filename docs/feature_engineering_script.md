@@ -55,6 +55,10 @@ high_risk_flag	>> domain-based feature
 pip install pandas google-cloud-bigquery scikit-learn
 ```
 
+!!! If your pip install for pandas or google-cloud-bigquery is stuck on "Running setup.py", run the following command:  
+```
+pip install --upgrade pip setuptools wheel
+```
 🧾 Step 2 — Feature Engineering Script
 
 🧾 1. Create config.py
