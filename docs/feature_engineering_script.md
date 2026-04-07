@@ -178,6 +178,25 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+We used binning via pd.cut() to transform continuous features into categorical segments, improving interpretability and enabling more stable monitoring of feature distributions.  
+- It creates a new column: age_group
+- based on ranges of: age
+
+📊 How It Works  
+1. bins=[0, 30, 50, 70, 100]
+
+These define the intervals: 
+- 0–30	=    young
+- 30–50	=    mid
+- 50–70	=    senior
+- 70–100	=    elder 
+
+2. labels=["young", "mid", "senior", "elder"]
+Each bin gets a label:
+- 25	=    "young"
+- 45	=    "mid"
+- 60	=    "senior"
+- 80	=    "elder"
 
 ▶️ Step 3 — Run It
 ```ruby
