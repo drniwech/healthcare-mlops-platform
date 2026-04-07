@@ -203,6 +203,15 @@ if __name__ == "__main__":
 </> bash
 python training/train.py
 ```
+!! Common issues:
+- cannot import name 'storage' from 'google.cloud'
+  - Solution:
+      - pip install --upgrade google-cloud-storage
+- ModuleNotFoundError: No module named 'xgboost'
+  - Solution:
+      - pip install xgboost
+   
+
 
 🔍 Expected Output
 
