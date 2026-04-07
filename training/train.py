@@ -30,8 +30,28 @@ def load_data():
 
 
 def prepare_data(df):
+    # Separate features and target
     X = df.drop(columns=[TARGET_COLUMN])
     y = df[TARGET_COLUMN]
+
+    # -------------------------
+    # Handle categorical columns. Encode categorical features.
+    # -------------------------
+    categorical_cols = ["gender", "diagnosis"]
+
+    X = pd.get_dummies(X, columns=categorical_cols)
+
+    # -------------------------
+    # Save feature columns 
+    # -------------------------
+    os.makedirs("training/artifacts", exist_ok=True)
+    feature_path = "training/artifacts/feature_columns.json"
+
+    # Saves our training feature schema
+    with open(feature_path, "w") as f:
+        json.dump(list(X.columns), f)
+
+    logger.info(f"Saved feature columns to {feature_path}")
 
     return train_test_split(X, y, test_size=0.2, random_state=42)
 
