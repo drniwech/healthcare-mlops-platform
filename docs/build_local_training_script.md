@@ -1,4 +1,4 @@
-### 4. Build local training script
+### 4. Build Local Training Script
 
 🎯 Objective
 
@@ -35,10 +35,22 @@ Metrics JSON	>> native Python
 Model versioning	>> MLflow
 ```
 
-⚙️ Step 1 — Install MLflow
+⚙️ Step 0 — Install MLflow
 ```ruby
 </> bash
 pip install mlflow matplotlib seaborn
+```
+🧾 Step 1 — Create training/utils.py  
+```python
+
+import logging
+
+def setup_logger():
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(levelname)s - %(message)s"
+    )
+    return logging.getLogger(__name__)
 ```
 
 🧾 Step 2 — Create training/config.py
@@ -56,9 +68,10 @@ METRICS_PATH = "training/model/metrics.json"
 MLFLOW_EXPERIMENT = "healthcare-mlops"
 ```
 
-🧰 Step 3 — Create training/utils.py
+🧰 Step 3 — Create training/train.py
 ```ruby
 </> python
+
 
 import pandas as pd
 from google.cloud import bigquery, storage
@@ -94,7 +107,10 @@ def load_data():
 def prepare_data(df):
     # Separate features and target
     X = df.drop(columns=[TARGET_COLUMN])
-    y = df[TARGET_COLUMN]
+    # df[TARGET_COLUMN] dtype: Int64 (Pandas nullable type)
+    # preds dtype: int64 (NumPy standard int) 
+    # The problem is: Int64 (capital I) ≠ int64
+    y = df[TARGET_COLUMN].astype(int)  # We fix it here.
 
     # -------------------------
     # Handle categorical columns. Encode categorical features.
@@ -180,7 +196,7 @@ def main():
 
         preds = model.predict(X_test)
         probs = model.predict_proba(X_test)[:, 1]
-
+        
         acc = accuracy_score(y_test, preds)
         auc = roc_auc_score(y_test, probs)
 
@@ -221,6 +237,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 ```
 
 ▶️ Step 5 — Run Training
