@@ -59,21 +59,9 @@ MLFLOW_EXPERIMENT = "healthcare-mlops"
 🧰 Step 3 — Create training/utils.py
 ```ruby
 </> python
-import logging
 
-def setup_logger():
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s"
-    )
-    return logging.getLogger(__name__)
-```
-
-🧑‍💻 Step 4 — Create training/train.py (Production-Level)  
-```ruby
-</> python
 import pandas as pd
-from google.cloud import bigquery
+from google.cloud import bigquery, storage
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score, accuracy_score, confusion_matrix
 from xgboost import XGBClassifier
@@ -104,8 +92,28 @@ def load_data():
 
 
 def prepare_data(df):
+    # Separate features and target
     X = df.drop(columns=[TARGET_COLUMN])
     y = df[TARGET_COLUMN]
+
+    # -------------------------
+    # Handle categorical columns. Encode categorical features.
+    # -------------------------
+    categorical_cols = ["gender", "diagnosis"]
+
+    X = pd.get_dummies(X, columns=categorical_cols)
+
+    # -------------------------
+    # Save feature columns 
+    # -------------------------
+    os.makedirs("training/artifacts", exist_ok=True)
+    feature_path = "training/artifacts/feature_columns.json"
+
+    # Saves our training feature schema
+    with open(feature_path, "w") as f:
+        json.dump(list(X.columns), f)
+
+    logger.info(f"Saved feature columns to {feature_path}")
 
     return train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -147,6 +155,18 @@ def save_metrics_json(acc, auc):
 
     return METRICS_PATH
 
+def upload_to_gcs(local_path, gcs_path):
+    client = storage.Client()
+
+    bucket_name = gcs_path.split("/")[2]
+    blob_path = "/".join(gcs_path.split("/")[3:])
+
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(blob_path)
+
+    blob.upload_from_filename(local_path)
+
+    print(f"Uploaded model to {gcs_path}")
 
 def main():
     mlflow.set_experiment(MLFLOW_EXPERIMENT)
@@ -182,8 +202,13 @@ def main():
 
         # --- Save model ---
         os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
+        # Save locally
         joblib.dump(model, MODEL_PATH)
 
+        # Upload to GCS (NEW)
+        upload_to_gcs(MODEL_PATH, MODEL_GCS_PATH)
+
+        # MLflow logging
         mlflow.log_artifact(MODEL_PATH)
         mlflow.xgboost.log_model(model, "model")
 
