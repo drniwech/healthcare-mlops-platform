@@ -31,7 +31,11 @@ def build_features(raw_input):
     # -------------------------
     with open("training/artifacts/feature_columns.json") as f:
         training_cols = json.load(f)
-
+    
+    # Enables:
+    # - Safe deployment
+    # - Drift detection 
+    # - Retraining 
     df = df.reindex(columns=training_cols, fill_value=0)
 
     return df
