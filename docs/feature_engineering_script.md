@@ -52,7 +52,7 @@ high_risk_flag	>> domain-based feature
 🧑‍💻 Step 1 — Install Dependencies
 ```ruby
 </> bash
-pip install pandas google-cloud-bigquery scikit-learn
+pip install pandas google-cloud-bigquery scikit-learn db-dtypes
 ```
 
 !!! If your pip install for pandas or google-cloud-bigquery is stuck on "Running setup.py", run the following command:  
