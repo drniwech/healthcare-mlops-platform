@@ -273,6 +273,19 @@ Model saved to training/model/model.joblib
 - Artifacts
 - Model registry-ready
 
+!! Run MLflow UI locally.  
+
+Run this command at the root directory (healthcare-mlops-platform)
+```ruby
+</> bash
+
+mlflow ui
+```
+We can view our experiments via a browser.
+```
+http://127.0.0.1:5000
+```
+
 2️⃣ Feature Importance Logging
 
 We now:
