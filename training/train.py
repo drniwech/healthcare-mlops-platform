@@ -119,6 +119,11 @@ def main():
         preds = model.predict(X_test)
         probs = model.predict_proba(X_test)[:, 1]
 
+        print("y_test dtype:", y_test.dtype)
+        print("preds dtype:", preds.dtype)
+        print("y_test unique:", set(y_test))
+        print("preds unique:", set(preds))
+        
         acc = accuracy_score(y_test, preds)
         auc = roc_auc_score(y_test, probs)
 
