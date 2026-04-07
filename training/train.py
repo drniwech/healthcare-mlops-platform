@@ -32,7 +32,10 @@ def load_data():
 def prepare_data(df):
     # Separate features and target
     X = df.drop(columns=[TARGET_COLUMN])
-    y = df[TARGET_COLUMN]
+    # df[TARGET_COLUMN] dtype: Int64 (Pandas nullable type)
+    # preds dtype: int64 (NumPy standard int) 
+    # The problem is: Int64 (capital I) ≠ int64
+    y = df[TARGET_COLUMN].astype(int)  # We fix it here.
 
     # -------------------------
     # Handle categorical columns. Encode categorical features.
@@ -118,11 +121,6 @@ def main():
 
         preds = model.predict(X_test)
         probs = model.predict_proba(X_test)[:, 1]
-
-        print("y_test dtype:", y_test.dtype)
-        print("preds dtype:", preds.dtype)
-        print("y_test unique:", set(y_test))
-        print("preds unique:", set(preds))
         
         acc = accuracy_score(y_test, preds)
         auc = roc_auc_score(y_test, probs)
