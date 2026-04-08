@@ -33,6 +33,8 @@ google-cloud-aiplatform
 google-cloud-storage
 google-cloud-bigquery
 shap
+matplotlib
+seaborn
 ```
 
 🧾 Step 2 — Create .dockerignore
