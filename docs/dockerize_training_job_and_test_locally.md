@@ -79,6 +79,19 @@ We must pass credentials into the container.
 
 export GOOGLE_APPLICATION_CREDENTIALS="/path/to/mlops-key.json"
 ```
+
+!! Make sure that Docker is up and running on your local machine.
+```
+docker ps
+```
+
+!! You can use colima.
+```
+</> bash
+brew install colima docker
+colima start
+```
+
 Then mount into the container:  
 ```ruby
 </>bash
