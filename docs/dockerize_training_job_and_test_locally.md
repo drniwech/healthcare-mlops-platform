@@ -35,6 +35,7 @@ google-cloud-bigquery
 shap
 matplotlib
 seaborn
+db-dtypes
 ```
 
 🧾 Step 2 — Create .dockerignore

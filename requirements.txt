@@ -11,3 +11,4 @@ google-cloud-bigquery
 shap
 matplotlib
 seaborn
+db-dtypes
