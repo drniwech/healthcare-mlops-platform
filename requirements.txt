@@ -9,3 +9,5 @@ google-cloud-aiplatform
 google-cloud-storage
 google-cloud-bigquery
 shap
+matplotlib
+seaborn
