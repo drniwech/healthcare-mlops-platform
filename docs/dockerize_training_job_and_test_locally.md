@@ -22,14 +22,17 @@ project-root/
 
 ⚙️ Step 1 — Create requirements.txt
 ```
+# training + pipeline
 pandas
+numpy
 scikit-learn
 xgboost
-google-cloud-bigquery
-mlflow
-matplotlib
-seaborn
 joblib
+mlflow
+google-cloud-aiplatform
+google-cloud-storage
+google-cloud-bigquery
+shap
 ```
 
 🧾 Step 2 — Create .dockerignore
