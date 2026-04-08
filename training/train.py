@@ -42,6 +42,9 @@ def prepare_data(df):
     # -------------------------
     categorical_cols = ["gender", "diagnosis"]
 
+    # pd.get_dummies() is a pandas function used to convert categorical variables into "dummy" or indicator variables, 
+    # a process commonly known as one-hot encoding. It transforms each unique value in a column into its own new column 
+    # containing binary values (1 or 0, or True/False).
     X = pd.get_dummies(X, columns=categorical_cols)
 
     # -------------------------
