@@ -12,7 +12,7 @@ from components.register_component import register_model_op
 PROJECT_ID = "healthcare-mlops-platform"
 REGION = "us-central1"
 PIPELINE_ROOT = "gs://healthcare-mlops-data/pipeline-root"
-
+VERTEX_SERVICE_ACCOUNT = "vertex-training-sa@healthcare-mlops-platform.iam.gserviceaccount.com"
 
 # ================================
 # Pipeline Definition
@@ -70,7 +70,7 @@ def run_pipeline():
         pipeline_root=PIPELINE_ROOT,
     )
 
-    job.run()
+    job.run(service_account=VERTEX_SERVICE_ACCOUNT)
     print("Pipeline submitted to Vertex AI")
 
 
