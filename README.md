@@ -10,13 +10,15 @@ Predict 30-day hospital readmission risk and monitor model trust, drift, and rel
 
 ## Project Structure
 ```
+---github/workflows/
+---api/
+---common/
 ---data_pipeline/
----training/
----pipeline/
----deployment/
----monitoring/
----ci_cd/
 ---docs/
+---monitoring/
+---pipeline/
+---training/
+---prediction/
 ---README.md
 ```
 
