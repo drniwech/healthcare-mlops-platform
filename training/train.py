@@ -113,6 +113,12 @@ def upload_to_gcs(local_path, gcs_path):
     print(f"Uploaded model to {gcs_path}")
 
 def main():
+    # Ensure Directory Exists
+    os.makedirs("/app/mlruns", exist_ok=True)
+    
+    # Explicitly Set MLflow Tracking URI
+    mlflow.set_tracking_uri("file:/app/mlruns")
+    
     mlflow.set_experiment(MLFLOW_EXPERIMENT)
 
     with mlflow.start_run():
