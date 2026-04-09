@@ -64,6 +64,8 @@ Vertex AI will:
 - Produce model artifact  
 
 👉 We just ran serverless ML training  
+- We can monitor the Vertex AI custom job at GCP Console > Vertex AI > Model Development > Training
+   - Open the Custom jobs tab.  
 
 ⚠️ IMPORTANT (Model Artifact Location)
 
