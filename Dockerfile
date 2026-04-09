@@ -4,14 +4,20 @@ FROM python:3.10-slim
 # Set working directory
 WORKDIR /app
 
-# Copy files
+# Copy requirements first (for caching)
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
 
-COPY training/ ./training/
+# Install system + Python dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    && pip install --no-cache-dir -r requirements.txt \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set environment variables (optional)
+# Copy entire project
+COPY . .
+
+# Environment variable
 ENV PYTHONUNBUFFERED=1
 
-# Run training script
+# Run training
 CMD ["python", "training/train.py"]
