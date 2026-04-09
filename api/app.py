@@ -33,6 +33,8 @@ class PatientInput(BaseModel):
     num_procedures: int
     num_medications: int
     days_in_hospital: int
+    gender: str
+    diagnosis: str
 
 
 # =========================

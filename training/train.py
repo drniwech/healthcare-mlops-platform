@@ -30,8 +30,34 @@ def load_data():
 
 
 def prepare_data(df):
+    # Separate features and target
     X = df.drop(columns=[TARGET_COLUMN])
-    y = df[TARGET_COLUMN]
+    # df[TARGET_COLUMN] dtype: Int64 (Pandas nullable type)
+    # preds dtype: int64 (NumPy standard int) 
+    # The problem is: Int64 (capital I) ≠ int64
+    y = df[TARGET_COLUMN].astype(int)  # We fix it here.
+
+    # -------------------------
+    # Handle categorical columns. Encode categorical features.
+    # -------------------------
+    categorical_cols = ["gender", "diagnosis"]
+
+    # pd.get_dummies() is a pandas function used to convert categorical variables into "dummy" or indicator variables, 
+    # a process commonly known as one-hot encoding. It transforms each unique value in a column into its own new column 
+    # containing binary values (1 or 0, or True/False).
+    X = pd.get_dummies(X, columns=categorical_cols)
+
+    # -------------------------
+    # Save feature columns 
+    # -------------------------
+    os.makedirs("training/artifacts", exist_ok=True)
+    feature_path = "training/artifacts/feature_columns.json"
+
+    # Saves our training feature schema
+    with open(feature_path, "w") as f:
+        json.dump(list(X.columns), f)
+
+    logger.info(f"Saved feature columns to {feature_path}")
 
     return train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -98,7 +124,7 @@ def main():
 
         preds = model.predict(X_test)
         probs = model.predict_proba(X_test)[:, 1]
-
+        
         acc = accuracy_score(y_test, preds)
         auc = roc_auc_score(y_test, probs)
 

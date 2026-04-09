@@ -1,4 +1,4 @@
-### 4. Build local training script
+### 4. Build Local Training Script
 
 🎯 Objective
 
@@ -35,10 +35,22 @@ Metrics JSON	>> native Python
 Model versioning	>> MLflow
 ```
 
-⚙️ Step 1 — Install MLflow
+⚙️ Step 0 — Install MLflow
 ```ruby
 </> bash
 pip install mlflow matplotlib seaborn
+```
+🧾 Step 1 — Create training/utils.py  
+```python
+
+import logging
+
+def setup_logger():
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(levelname)s - %(message)s"
+    )
+    return logging.getLogger(__name__)
 ```
 
 🧾 Step 2 — Create training/config.py
@@ -56,24 +68,13 @@ METRICS_PATH = "training/model/metrics.json"
 MLFLOW_EXPERIMENT = "healthcare-mlops"
 ```
 
-🧰 Step 3 — Create training/utils.py
+🧰 Step 3 — Create training/train.py
 ```ruby
 </> python
-import logging
 
-def setup_logger():
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s"
-    )
-    return logging.getLogger(__name__)
-```
 
-🧑‍💻 Step 4 — Create training/train.py (Production-Level)  
-```ruby
-</> python
 import pandas as pd
-from google.cloud import bigquery
+from google.cloud import bigquery, storage
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score, accuracy_score, confusion_matrix
 from xgboost import XGBClassifier
@@ -104,8 +105,31 @@ def load_data():
 
 
 def prepare_data(df):
+    # Separate features and target
     X = df.drop(columns=[TARGET_COLUMN])
-    y = df[TARGET_COLUMN]
+    # df[TARGET_COLUMN] dtype: Int64 (Pandas nullable type)
+    # preds dtype: int64 (NumPy standard int) 
+    # The problem is: Int64 (capital I) ≠ int64
+    y = df[TARGET_COLUMN].astype(int)  # We fix it here.
+
+    # -------------------------
+    # Handle categorical columns. Encode categorical features.
+    # -------------------------
+    categorical_cols = ["gender", "diagnosis"]
+
+    X = pd.get_dummies(X, columns=categorical_cols)
+
+    # -------------------------
+    # Save feature columns 
+    # -------------------------
+    os.makedirs("training/artifacts", exist_ok=True)
+    feature_path = "training/artifacts/feature_columns.json"
+
+    # Saves our training feature schema
+    with open(feature_path, "w") as f:
+        json.dump(list(X.columns), f)
+
+    logger.info(f"Saved feature columns to {feature_path}")
 
     return train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -147,6 +171,18 @@ def save_metrics_json(acc, auc):
 
     return METRICS_PATH
 
+def upload_to_gcs(local_path, gcs_path):
+    client = storage.Client()
+
+    bucket_name = gcs_path.split("/")[2]
+    blob_path = "/".join(gcs_path.split("/")[3:])
+
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(blob_path)
+
+    blob.upload_from_filename(local_path)
+
+    print(f"Uploaded model to {gcs_path}")
 
 def main():
     mlflow.set_experiment(MLFLOW_EXPERIMENT)
@@ -160,7 +196,7 @@ def main():
 
         preds = model.predict(X_test)
         probs = model.predict_proba(X_test)[:, 1]
-
+        
         acc = accuracy_score(y_test, preds)
         auc = roc_auc_score(y_test, probs)
 
@@ -182,8 +218,13 @@ def main():
 
         # --- Save model ---
         os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
+        # Save locally
         joblib.dump(model, MODEL_PATH)
 
+        # Upload to GCS (NEW)
+        upload_to_gcs(MODEL_PATH, MODEL_GCS_PATH)
+
+        # MLflow logging
         mlflow.log_artifact(MODEL_PATH)
         mlflow.xgboost.log_model(model, "model")
 
@@ -196,6 +237,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 ```
 
 ▶️ Step 5 — Run Training
@@ -203,6 +245,15 @@ if __name__ == "__main__":
 </> bash
 python training/train.py
 ```
+!! Common issues:
+- cannot import name 'storage' from 'google.cloud'
+  - Solution:
+      - pip install --upgrade google-cloud-storage
+- ModuleNotFoundError: No module named 'xgboost'
+  - Solution:
+      - pip install xgboost
+   
+
 
 🔍 Expected Output
 
@@ -221,6 +272,19 @@ Model saved to training/model/model.joblib
 - Metrics
 - Artifacts
 - Model registry-ready
+
+!! Run MLflow UI locally.  
+
+Run this command at the root directory (healthcare-mlops-platform)
+```ruby
+</> bash
+
+mlflow ui
+```
+We can view our experiments via a browser.
+```
+http://127.0.0.1:5000
+```
 
 2️⃣ Feature Importance Logging
 
