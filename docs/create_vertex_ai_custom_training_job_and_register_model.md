@@ -22,9 +22,20 @@ gcloud projects add-iam-policy-binding healthcare-mlops-platform \
   --member="serviceAccount:vertex-training-sa@healthcare-mlops-platform.iam.gserviceaccount.com" \
   --role="roles/aiplatform.user"
 
+# Read/write models in GCS
 gcloud projects add-iam-policy-binding healthcare-mlops-platform \
   --member="serviceAccount:vertex-training-sa@healthcare-mlops-platform.iam.gserviceaccount.com" \
-  --role="roles/storage.objectViewer"
+  --role="roles/storage.objectAdmin"
+
+# Run queries
+gcloud projects add-iam-policy-binding healthcare-mlops-platform \
+  --member="serviceAccount:vertex-training-sa@healthcare-mlops-platform.iam.gserviceaccount.com" \
+  --role="roles/bigquery.user"
+
+# Read table data
+gcloud projects add-iam-policy-binding healthcare-mlops-platform \
+  --member="serviceAccount:vertex-training-sa@healthcare-mlops-platform.iam.gserviceaccount.com" \
+  --role="roles/bigquery.dataViewer"
 ```
 
 ⚙️ Step 1 — Create Artifact Registry Repo
