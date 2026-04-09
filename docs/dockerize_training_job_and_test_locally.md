@@ -53,22 +53,29 @@ training/model/
 Dockerfile  
 ```ruby
 </>dockerfile
+
 # Base image
-FROM python:3.10-slim
+FROM python:3.11-slim
 
 # Set working directory
 WORKDIR /app
 
-# Copy files
+# Copy requirements first (for caching)
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
 
-COPY training/ ./training/
+# Install system + Python dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    && pip install --no-cache-dir -r requirements.txt \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set environment variables (optional)
+# Copy entire project
+COPY . .
+
+# Environment variable
 ENV PYTHONUNBUFFERED=1
 
-# Run training script
+# Run training
 CMD ["python", "training/train.py"]
 ```
 
@@ -76,7 +83,7 @@ CMD ["python", "training/train.py"]
 
 We must pass credentials into the container.
 
-**Option A (recommended for now)**  
+**For local run**  
 ```ruby
 </> bash
 
@@ -100,6 +107,7 @@ Then mount into the container:
 </>bash
 
 docker run \
+-v $(pwd)/mlruns:/app/mlruns \
 -v $GOOGLE_APPLICATION_CREDENTIALS:/app/key.json \
 -e GOOGLE_APPLICATION_CREDENTIALS=/app/key.json \
 healthcare-mlops:latest
@@ -112,11 +120,13 @@ healthcare-mlops:latest
 docker build -t healthcare-mlops:latest .
 ```
 
-▶️ Step 6 — Run Container Locally
+▶️ Step 6 — Run Container Locally  
+Persist MLflow outside the container:
 ```ruby
 </>bash
 
 docker run \
+-v $(pwd)/mlruns:/app/mlruns \
 -v $GOOGLE_APPLICATION_CREDENTIALS:/app/key.json \
 -e GOOGLE_APPLICATION_CREDENTIALS=/app/key.json \
 healthcare-mlops:latest
