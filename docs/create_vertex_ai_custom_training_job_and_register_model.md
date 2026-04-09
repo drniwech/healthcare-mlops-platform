@@ -164,7 +164,7 @@ We now have:
 
 - ✔ Docker image in Artifact Registry
 - ✔ Training job running on Vertex AI
-- ✔ Model saved in GCS
+- ✔ Model saved in GCS `(gs://healthcare-mlops-data/models/model.joblib)`
 - ✔ Model registered in Vertex AI
 
 
