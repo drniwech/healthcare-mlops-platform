@@ -7,9 +7,25 @@
 
 🧠 Architecture We’re Implementing
 ```
-Local → Docker → Artifact Registry → Vertex AI Training → Model Registry
+GCP → Docker → Artifact Registry → Vertex AI Training → Model Registry
 ```  
 This is exactly what companies do.  
+
+⚙️ Step 0 — Create a custom service account  
+```bash
+gcloud iam service-accounts create vertex-training-sa
+```
+
+Grant Roles  
+```bash
+gcloud projects add-iam-policy-binding healthcare-mlops-platform \
+  --member="serviceAccount:vertex-training-sa@healthcare-mlops-platform.iam.gserviceaccount.com" \
+  --role="roles/aiplatform.user"
+
+gcloud projects add-iam-policy-binding healthcare-mlops-platform \
+  --member="serviceAccount:vertex-training-sa@healthcare-mlops-platform.iam.gserviceaccount.com" \
+  --role="roles/storage.objectViewer"
+```
 
 ⚙️ Step 1 — Create Artifact Registry Repo
 ```ruby
@@ -28,37 +44,40 @@ gcloud artifacts repositories create mlops-repo \
 gcloud auth configure-docker us-central1-docker.pkg.dev
 ```
 
-🏗 Step 3 — Tag Docker Image
+🏗 Step 3 — Tag & Build Image in GCP (correct CPU)
 ```ruby
 </> bash
 
-docker tag healthcare-mlops:latest \
+gcloud builds submit --tag \
 us-central1-docker.pkg.dev/healthcare-mlops-platform/mlops-repo/healthcare-mlops:latest
 ```
-
-🚀 Step 4 — Push Image
-```ruby
-</> bash
-
-docker push \
-us-central1-docker.pkg.dev/healthcare-mlops-platform/mlops-repo/healthcare-mlops:latest
+It automatically:
+```
+- Builds image in GCP (correct CPU) ✅
+- Tags it correctly ✅
+- Pushes to Artifact Registry ✅
 ```
 
-🧪 Step 5 — Run Vertex AI Custom Training Job
+🧪 Step 4 — Run Vertex AI Custom Training Job
 ```ruby
 </> bash
 
 gcloud ai custom-jobs create \
 --region=us-central1 \
 --display-name=healthcare-training-job \
---worker-pool-spec=machine-type=e2-standard-4,replica-count=1,container-image-uri=us-central1-docker.pkg.dev/healthcare-mlops-platform/mlops-repo/healthcare-mlops:latest
+--worker-pool-spec=machine-type=e2-standard-4,replica-count=1,container-image-uri=us-central1-docker.pkg.dev/healthcare-mlops-platform/mlops-repo/healthcare-mlops:latest  \
+--service-account=vertex-training-sa@healthcare-mlops-platform.iam.gserviceaccount.com
 ```
 
 🔍 What Happens Now
 
 Vertex AI will:
 
-- Pull our Docker image
+- Build Docker image in GCP.
+   - You built your image on a Mac (likely Apple Silicon or different arch), so:
+    -  Local build = linux/arm64 ❌
+    -  Vertex AI requires = linux/amd64 ✅
+    -  👉 Result: Vertex cannot pull/run your image
 - Run our training script
 - Execute MLflow logging
 - Produce model artifact  
