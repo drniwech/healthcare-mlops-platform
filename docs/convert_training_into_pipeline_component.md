@@ -31,10 +31,13 @@ project-root/
 ├── training/   (existing code stays)
 ```
 
-⚙️ Step 1 — Install Pipeline SDK
+⚙️ Step 1 — Install Pipeline SDK and virtualenv
 ```ruby
 </> bash
  
+pip install virtualenv
+virtualenv venv
+source venv/bin/activate
 pip install kfp google-cloud-aiplatform
 ```
 KFP = Kubeflow Pipelines (used by Vertex AI)  
@@ -109,11 +112,33 @@ if __name__ == "__main__":
     job.run(service_account=VERTEX_SERVICE_ACCOUNT)
 ```
 
+✅ Grant access to your local account (VERY IMPORTANT)
+
+Grant the Service Account User role so that you can run it locally as the vertex-training-sa service account:  
+```ruby
+gcloud iam service-accounts add-iam-policy-binding \
+vertex-training-sa@healthcare-mlops-platform.iam.gserviceaccount.com \
+--member="user:YOUR_EMAIL@gmail.com" \
+--role="roles/iam.serviceAccountUser"
+```
+
+!! If a permission issue exists, you can temporarily remove the service account:  
+Change this:  
+```python
+job.run(service_account=VERTEX_SERVICE_ACCOUNT)
+```
+To this:
+```python
+job.run()
+```
+
+Vertex will fallback to: Compute Engine default service account  
+
 🚀 Step 4 — Run Pipeline
 ```ruby
 </> bash
 
-python pipeline/pipeline.py
+python pipeline/pipeline.py run
 ```
 
 🔍 What Happens
