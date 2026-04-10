@@ -21,9 +21,9 @@ def evaluate_op(
     # Separate features & target
     # -------------------------
     X = df.drop(columns=["readmitted"])
-    y = df["readmitted"].astype(
-        int
-    )  # FIX dtype mismatch between int (primitive) and Int (Pandas nullable type).
+    # FIX dtype mismatch between int (primitive) and Int (Pandas nullable
+    # type).
+    y = df["readmitted"].astype(int)
 
     # -------------------------
     # Apply the same encoding as training
@@ -53,9 +53,9 @@ def evaluate_op(
     # -------------------------
     # Predictions
     # -------------------------
-    preds = model.predict(X).astype(
-        int
-    )  # FIX dtype mismatch between int (primitive) and Int (Pandas nullable type).
+    # FIX dtype mismatch between int (primitive) and Int (Pandas nullable
+    # type).
+    preds = model.predict(X).astype(int)
     probs = model.predict_proba(X)[:, 1].astype(float)
 
     # -------------------------

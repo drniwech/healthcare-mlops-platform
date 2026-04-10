@@ -7,8 +7,7 @@ def predict(instance):
     aiplatform.init(project=PROJECT_ID, location=REGION)
 
     endpoint = aiplatform.Endpoint(
-        endpoint_name=f"projects/{PROJECT_ID}/locations/{REGION}/endpoints/{ENDPOINT_ID}"
-    )
+        endpoint_name=f"projects/{PROJECT_ID}/locations/{REGION}/endpoints/{ENDPOINT_ID}")
 
     response = endpoint.predict(instances=[instance])
     predictions = response.predictions
@@ -23,8 +22,12 @@ def predict(instance):
         if isinstance(p, dict) and "scores" in p:
             scores = p["scores"]
             pred_class = int(
-                p.get("classes", list(range(len(scores))))[scores.index(max(scores))]
-            )
+                p.get(
+                    "classes", list(
+                        range(
+                            len(scores))))[
+                    scores.index(
+                        max(scores))])
             confidence = float(max(scores))
 
         # =========================

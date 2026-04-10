@@ -50,7 +50,9 @@ def ml_pipeline():
 # Compile Pipeline
 # ================================
 def compile_pipeline():
-    compiler.Compiler().compile(pipeline_func=ml_pipeline, package_path="pipeline.json")
+    compiler.Compiler().compile(
+        pipeline_func=ml_pipeline,
+        package_path="pipeline.json")
     print("Pipeline compiled to pipeline.json")
 
 

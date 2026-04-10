@@ -7,9 +7,14 @@ aiplatform.init(project=PROJECT_ID, location=REGION)
 job = aiplatform.ModelDeploymentMonitoringJob.create(
     display_name="model-monitoring-job",
     endpoint=ENDPOINT_ID,
-    logging_sampling_strategy={"random_sample_config": {"sample_rate": 0.8}},
-    schedule_config={"monitor_interval": 3600},
-    alert_config={"email_alert_config": {"user_emails": ["your_email@example.com"]}},
+    logging_sampling_strategy={
+        "random_sample_config": {
+            "sample_rate": 0.8}},
+    schedule_config={
+        "monitor_interval": 3600},
+    alert_config={
+        "email_alert_config": {
+            "user_emails": ["your_email@example.com"]}},
 )
 
 # Configure Drift Detection
@@ -25,12 +30,12 @@ job = aiplatform.ModelDeploymentMonitoringJob.create(
     objective_configs=[
         {
             "training_dataset": {
-                "gcs_source": {"uris": ["gs://your-bucket/data/training_data.csv"]},
+                "gcs_source": {
+                    "uris": ["gs://your-bucket/data/training_data.csv"]},
                 "data_format": "csv",
             },
             "drift_detection_config": drift_config,
-        }
-    ],
+        }],
 )
 
 # Deploy with Logging Enabled
