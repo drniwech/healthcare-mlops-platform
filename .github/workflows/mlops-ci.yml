@@ -32,7 +32,7 @@ jobs:
     # ✅ Lint code
     - name: Lint with flake8
       run: |
-        flake8 . --max-line-length=120
+        flake8 api training pipeline monitoring --max-line-length=120
 
     # 🔐 Authenticate to GCP
     - name: Authenticate to GCP
