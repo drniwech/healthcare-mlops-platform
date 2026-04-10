@@ -112,6 +112,16 @@ if __name__ == "__main__":
     job.run(service_account=VERTEX_SERVICE_ACCOUNT)
 ```
 
+✅ Grant access to your local account (VERY IMPORTANT)
+
+Grant the Service Account User role so that you can run it locally as the vertex-training-sa service account:  
+```ruby
+gcloud iam service-accounts add-iam-policy-binding \
+vertex-training-sa@healthcare-mlops-platform.iam.gserviceaccount.com \
+--member="user:YOUR_EMAIL@gmail.com" \
+--role="roles/iam.serviceAccountUser"
+```
+
 🚀 Step 4 — Run Pipeline
 ```ruby
 </> bash
