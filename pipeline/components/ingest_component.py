@@ -1,5 +1,6 @@
 from kfp.v2.dsl import component, Output, Dataset
 
+
 @component
 def ingest_op(output_data: Output[Dataset]):
     from google.cloud import bigquery

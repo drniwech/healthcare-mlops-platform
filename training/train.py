@@ -11,7 +11,7 @@ import mlflow.xgboost
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from config import *
+from config import PROJECT_ID, DATASET, FEATURE_TABLE, TARGET_COLUMN, METRICS_PATH, MLFLOW_EXPERIMENT, MODEL_PATH, MODEL_GCS_PATH
 from utils import setup_logger
 
 logger = setup_logger()
@@ -33,7 +33,7 @@ def prepare_data(df):
     # Separate features and target
     X = df.drop(columns=[TARGET_COLUMN])
     # df[TARGET_COLUMN] dtype: Int64 (Pandas nullable type)
-    # preds dtype: int64 (NumPy standard int) 
+    # preds dtype: int64 (NumPy standard int)
     # The problem is: Int64 (capital I) ≠ int64
     y = df[TARGET_COLUMN].astype(int)  # We fix it here.
 
@@ -42,13 +42,13 @@ def prepare_data(df):
     # -------------------------
     categorical_cols = ["gender", "diagnosis"]
 
-    # pd.get_dummies() is a pandas function used to convert categorical variables into "dummy" or indicator variables, 
-    # a process commonly known as one-hot encoding. It transforms each unique value in a column into its own new column 
+    # pd.get_dummies() is a pandas function used to convert categorical variables into "dummy" or indicator variables,
+    # a process commonly known as one-hot encoding. It transforms each unique value in a column into its own new column
     # containing binary values (1 or 0, or True/False).
     X = pd.get_dummies(X, columns=categorical_cols)
 
     # -------------------------
-    # Save feature columns 
+    # Save feature columns
     # -------------------------
     os.makedirs("training/artifacts", exist_ok=True)
     feature_path = "training/artifacts/feature_columns.json"
@@ -64,10 +64,7 @@ def prepare_data(df):
 
 def train_model(X_train, y_train):
     model = XGBClassifier(
-        n_estimators=100,
-        max_depth=4,
-        learning_rate=0.1,
-        eval_metric="logloss"
+        n_estimators=100, max_depth=4, learning_rate=0.1, eval_metric="logloss"
     )
     model.fit(X_train, y_train)
     return model
@@ -89,15 +86,13 @@ def plot_confusion_matrix(y_test, preds):
 
 
 def save_metrics_json(acc, auc):
-    metrics = {
-        "accuracy": acc,
-        "roc_auc": auc
-    }
+    metrics = {"accuracy": acc, "roc_auc": auc}
 
     with open(METRICS_PATH, "w") as f:
         json.dump(metrics, f, indent=4)
 
     return METRICS_PATH
+
 
 def upload_to_gcs(local_path, gcs_path):
     client = storage.Client()
@@ -112,17 +107,17 @@ def upload_to_gcs(local_path, gcs_path):
 
     print(f"Uploaded model to {gcs_path}")
 
+
 def main():
     # Ensure Directory Exists
     os.makedirs("/app/mlruns", exist_ok=True)
-    
+
     # Explicitly Set MLflow Tracking URI
     mlflow.set_tracking_uri("file:/app/mlruns")
-    
+
     mlflow.set_experiment(MLFLOW_EXPERIMENT)
 
     with mlflow.start_run():
-
         df = load_data()
         X_train, X_test, y_train, y_test = prepare_data(df)
 
@@ -130,7 +125,7 @@ def main():
 
         preds = model.predict(X_test)
         probs = model.predict_proba(X_test)[:, 1]
-        
+
         acc = accuracy_score(y_test, preds)
         auc = roc_auc_score(y_test, probs)
 

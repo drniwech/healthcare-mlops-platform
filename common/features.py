@@ -11,8 +11,10 @@ def build_features(raw_input):
         "num_procedures": raw_input["num_procedures"],
         "num_medications": raw_input["num_medications"],
         "days_in_hospital": raw_input["days_in_hospital"],
-        "med_per_day": raw_input["num_medications"] / (raw_input["days_in_hospital"] + 1),
-        "procedure_ratio": raw_input["num_procedures"] / (raw_input["num_medications"] + 1),
+        "med_per_day": raw_input["num_medications"]
+        / (raw_input["days_in_hospital"] + 1),
+        "procedure_ratio": raw_input["num_procedures"]
+        / (raw_input["num_medications"] + 1),
         "high_risk": int(raw_input["age"] > 65 and raw_input["num_medications"] > 10),
         # Add categorical fields (IMPORTANT)
         "gender": raw_input.get("gender"),
@@ -31,11 +33,11 @@ def build_features(raw_input):
     # -------------------------
     with open("training/artifacts/feature_columns.json") as f:
         training_cols = json.load(f)
-    
+
     # Enables:
     # - Safe deployment
-    # - Drift detection 
-    # - Retraining 
+    # - Drift detection
+    # - Retraining
     df = df.reindex(columns=training_cols, fill_value=0)
 
     return df

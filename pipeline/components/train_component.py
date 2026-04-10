@@ -1,5 +1,6 @@
 from kfp.v2.dsl import component, Input, Output, Model, Dataset
 
+
 @component
 def train_op(
     input_data: Input[Dataset],

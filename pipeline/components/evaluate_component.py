@@ -1,5 +1,6 @@
 from kfp.v2.dsl import component, Input, Output, Metrics, Model, Dataset
 
+
 @component
 def evaluate_op(
     model: Input[Model],
@@ -20,12 +21,14 @@ def evaluate_op(
     # Separate features & target
     # -------------------------
     X = df.drop(columns=["readmitted"])
-    y = df["readmitted"].astype(int)   # FIX dtype mismatch between int (primitive) and Int (Pandas nullable type).
+    # FIX dtype mismatch between int (primitive) and Int (Pandas nullable
+    # type).
+    y = df["readmitted"].astype(int)
 
     # -------------------------
     # Apply the same encoding as training
-    # pd.get_dummies() is a pandas function used to convert categorical variables into "dummy" or indicator variables, 
-    # a process commonly known as one-hot encoding. It transforms each unique value in a column into its own new column 
+    # pd.get_dummies() is a pandas function used to convert categorical variables into "dummy" or indicator variables,
+    # a process commonly known as one-hot encoding. It transforms each unique value in a column into its own new column
     # containing binary values (1 or 0, or True/False).
     # -------------------------
     X = pd.get_dummies(X)
@@ -50,7 +53,9 @@ def evaluate_op(
     # -------------------------
     # Predictions
     # -------------------------
-    preds = model.predict(X).astype(int)         # FIX dtype mismatch between int (primitive) and Int (Pandas nullable type).
+    # FIX dtype mismatch between int (primitive) and Int (Pandas nullable
+    # type).
+    preds = model.predict(X).astype(int)
     probs = model.predict_proba(X)[:, 1].astype(float)
 
     # -------------------------

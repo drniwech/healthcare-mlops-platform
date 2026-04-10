@@ -74,21 +74,25 @@ def predict_with_explain(input: PatientInput):
         "timestamp": datetime.utcnow().isoformat(),
         "input": features,
         "prediction": prediction,
-        "confidence": confidence
+        "confidence": confidence,
     }
 
     logging.info(json.dumps(log_data))
 
     # =========================
-    # Step 5: Low Confidence Alert 
+    # Step 5: Low Confidence Alert
     # =========================
     if confidence < LOW_CONF_THRESHOLD:
-        logging.warning(json.dumps({
-            "alert": "Low confidence prediction",
-            "confidence": confidence,
-            "threshold": LOW_CONF_THRESHOLD,
-            "input": features
-        }))
+        logging.warning(
+            json.dumps(
+                {
+                    "alert": "Low confidence prediction",
+                    "confidence": confidence,
+                    "threshold": LOW_CONF_THRESHOLD,
+                    "input": features,
+                }
+            )
+        )
 
     # =========================
     # Response
@@ -96,5 +100,5 @@ def predict_with_explain(input: PatientInput):
     return {
         "prediction": prediction,
         "confidence": confidence,
-        "explanation": explanation
+        "explanation": explanation,
     }

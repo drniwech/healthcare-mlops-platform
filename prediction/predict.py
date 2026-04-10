@@ -7,8 +7,7 @@ def predict(instance):
     aiplatform.init(project=PROJECT_ID, location=REGION)
 
     endpoint = aiplatform.Endpoint(
-        endpoint_name=f"projects/{PROJECT_ID}/locations/{REGION}/endpoints/{ENDPOINT_ID}"
-    )
+        endpoint_name=f"projects/{PROJECT_ID}/locations/{REGION}/endpoints/{ENDPOINT_ID}")
 
     response = endpoint.predict(instances=[instance])
     predictions = response.predictions
@@ -22,7 +21,13 @@ def predict(instance):
         # =========================
         if isinstance(p, dict) and "scores" in p:
             scores = p["scores"]
-            pred_class = int(p.get("classes", list(range(len(scores))))[scores.index(max(scores))])
+            pred_class = int(
+                p.get(
+                    "classes", list(
+                        range(
+                            len(scores))))[
+                    scores.index(
+                        max(scores))])
             confidence = float(max(scores))
 
         # =========================
@@ -43,10 +48,7 @@ def predict(instance):
         parsed_predictions.append(pred_class)
         parsed_confidences.append(confidence)
 
-    return {
-        "prediction": parsed_predictions,
-        "confidence": parsed_confidences
-    }
+    return {"prediction": parsed_predictions, "confidence": parsed_confidences}
 
 
 if __name__ == "__main__":
@@ -55,12 +57,12 @@ if __name__ == "__main__":
         "age": 65,
         "num_procedures": 2,
         "num_medications": 10,
-        "days_in_hospital": 5
+        "days_in_hospital": 5,
     }
-    
+
     # Convert to model-ready features
     processed_input = build_features(raw_input)
-    
+
     # Call endpoint
     result = predict(processed_input)
 
