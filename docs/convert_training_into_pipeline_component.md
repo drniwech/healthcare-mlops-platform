@@ -116,7 +116,7 @@ if __name__ == "__main__":
 ```ruby
 </> bash
 
-python pipeline/pipeline.py
+python pipeline/pipeline.py run
 ```
 
 🔍 What Happens
