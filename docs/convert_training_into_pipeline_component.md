@@ -122,6 +122,18 @@ vertex-training-sa@healthcare-mlops-platform.iam.gserviceaccount.com \
 --role="roles/iam.serviceAccountUser"
 ```
 
+!! If a permission issue exists, you can temporarily remove the service account:  
+Change this:  
+```python
+job.run(service_account=VERTEX_SERVICE_ACCOUNT)
+```
+To this:
+```python
+job.run()
+```
+
+Vertex will fallback to: Compute Engine default service account  
+
 🚀 Step 4 — Run Pipeline
 ```ruby
 </> bash
