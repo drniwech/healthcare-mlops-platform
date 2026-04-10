@@ -13,7 +13,7 @@ PROJECT_ID = "healthcare-mlops-platform"
 REGION = "us-central1"
 PIPELINE_ROOT = "gs://healthcare-mlops-data/pipeline-root"
 VERTEX_SERVICE_ACCOUNT = (
-    "vertex-training-sa@healthcare-mlops-platform.iam.gserviceaccount.com"
+    "mlops-pipeline-sa@healthcare-mlops-platform.iam.gserviceaccount.com"
 )
 
 
