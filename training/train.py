@@ -11,7 +11,7 @@ import mlflow.xgboost
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from config import *
+from config import PROJECT_ID, DATASET, FEATURE_TABLE, TARGET_COLUMN, METRICS_PATH, MLFLOW_EXPERIMENT, MODEL_PATH, MODEL_GCS_PATH
 from utils import setup_logger
 
 logger = setup_logger()
