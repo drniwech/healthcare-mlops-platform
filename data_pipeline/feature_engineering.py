@@ -28,18 +28,13 @@ def create_features(df):
     df = df.dropna()
 
     df["age_group"] = pd.cut(
-        df["age"],
-        bins=[0, 30, 50, 70, 100],
-        labels=["young", "mid", "senior", "elder"]
+        df["age"], bins=[0, 30, 50, 70, 100], labels=["young", "mid", "senior", "elder"]
     )
 
     df["med_per_day"] = df["num_medications"] / (df["days_in_hospital"] + 1)
     df["procedure_ratio"] = df["num_procedures"] / (df["num_medications"] + 1)
 
-    df["high_risk"] = (
-        (df["age"] > 65) &
-        (df["num_medications"] > 10)
-    ).astype(int)
+    df["high_risk"] = ((df["age"] > 65) & (df["num_medications"] > 10)).astype(int)
 
     df = pd.get_dummies(df, columns=["age_group"], drop_first=True)
 

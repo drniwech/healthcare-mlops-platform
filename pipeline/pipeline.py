@@ -12,7 +12,10 @@ from components.register_component import register_model_op
 PROJECT_ID = "healthcare-mlops-platform"
 REGION = "us-central1"
 PIPELINE_ROOT = "gs://healthcare-mlops-data/pipeline-root"
-VERTEX_SERVICE_ACCOUNT = "vertex-training-sa@healthcare-mlops-platform.iam.gserviceaccount.com"
+VERTEX_SERVICE_ACCOUNT = (
+    "vertex-training-sa@healthcare-mlops-platform.iam.gserviceaccount.com"
+)
+
 
 # ================================
 # Pipeline Definition
@@ -26,23 +29,19 @@ def ml_pipeline():
     ingest_task = ingest_op()
 
     # Step 2: Train
-    train_task = train_op(
-        input_data=ingest_task.outputs["output_data"]
-    )
+    train_task = train_op(input_data=ingest_task.outputs["output_data"])
 
     # Step 3: Evaluate
     eval_task = evaluate_op(
         model=train_task.outputs["model_output"],
-        input_data=ingest_task.outputs["output_data"]
+        input_data=ingest_task.outputs["output_data"],
     )
 
     # Step 4: Register Model
-    register_task = register_model_op(
-        model=train_task.outputs["model_output"]
-    )
+    register_task = register_model_op(model=train_task.outputs["model_output"])
 
     # (Optional future) Add dependency explicitly
-    
+
     # Ensures model is evaluated before registration
     register_task.after(eval_task)
 
@@ -51,10 +50,7 @@ def ml_pipeline():
 # Compile Pipeline
 # ================================
 def compile_pipeline():
-    compiler.Compiler().compile(
-        pipeline_func=ml_pipeline,
-        package_path="pipeline.json"
-    )
+    compiler.Compiler().compile(pipeline_func=ml_pipeline, package_path="pipeline.json")
     print("Pipeline compiled to pipeline.json")
 
 

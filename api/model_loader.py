@@ -1,4 +1,3 @@
-
 import joblib
 
 MODEL_PATH = "model/model.joblib"
