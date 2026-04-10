@@ -31,10 +31,13 @@ project-root/
 ├── training/   (existing code stays)
 ```
 
-⚙️ Step 1 — Install Pipeline SDK
+⚙️ Step 1 — Install Pipeline SDK and virtualenv
 ```ruby
 </> bash
  
+pip install virtualenv
+virtualenv venv
+source venv/bin/activate
 pip install kfp google-cloud-aiplatform
 ```
 KFP = Kubeflow Pipelines (used by Vertex AI)  
